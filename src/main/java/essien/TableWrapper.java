@@ -59,14 +59,17 @@ public class TableWrapper {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int[] rowByColumnByWidth = getNumbers(br.readLine());
-        Cell[][] table = new Cell[rowByColumnByWidth[0]][rowByColumnByWidth[1]];
+        int[] rowByColumnByWidth;
+        Cell[][] table;
 
-        // Read cell data line by line.
-        for (int row = 0; row < rowByColumnByWidth[0]; row++)
-            for (int col = 0; col < rowByColumnByWidth[1]; col++)
-                table[row][col] = new Cell(getNumbers(br.readLine()));
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+            rowByColumnByWidth = getNumbers(br.readLine());
+            table = new Cell[rowByColumnByWidth[0]][rowByColumnByWidth[1]];
+            // Read cell data line by line.
+            for (int row = 0; row < rowByColumnByWidth[0]; row++)
+                for (int col = 0; col < rowByColumnByWidth[1]; col++)
+                    table[row][col] = new Cell(getNumbers(br.readLine()));
+        }
 
         // Compute and display result.
         for (int[] res : new TableWrapper(table).wrapToWidth(rowByColumnByWidth[2]))
